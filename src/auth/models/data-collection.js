@@ -23,14 +23,19 @@ class DataCollection {
     return this.model.create(record);
   }
 
-  update(id, data) {
-    return this.model.findOne({ where: { id } })
-      .then(record => record.update(data));
+  // intial record is grabbed and then we modify data, then return modified data
+  async update(id, data) {
+    let result = await this.model.findOne({ where: { id }});
+    let modifiedData = await result.update(data);
+    return modifiedData;
+    // return this.model.findOne({ where: { id } })
+    //   .then(record => record.update(data));
   }
 
   delete(id) {
     return this.model.destroy({ where: { id }});
   }
+
 
 }
 
