@@ -13,6 +13,7 @@ A simple server combining authentication techniques, CRUD functions on a SQL dat
 ## Setup
 
 ### `.env` requirements
+
 - `PORT` - Port Number
 - `DATABASE_URL` - URL to the running Postgres instance/db
 - `SECRET` - Secret for jwt tokens
