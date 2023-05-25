@@ -20,6 +20,8 @@ A simple server combining authentication techniques, CRUD functions on a SQL dat
 
 ### How to initialize/run your application (where applicable)
 
+- Create repo
+- Add starter code
 - `npm install` to install dependencies.
 - `npm run db:config` then edit the created config file.
 - `npm run db:create` to create the database.
