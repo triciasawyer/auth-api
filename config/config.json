@@ -1,8 +1,8 @@
 {
   "development": {
-    "username": "reece",
+    "username": "triciasawyer",
     "password": null,
-    "database": "auth_api_lab08",
+    "database": "auth_api",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
