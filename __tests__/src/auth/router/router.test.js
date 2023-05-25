@@ -64,7 +64,7 @@ describe('Auth Router', () => {
     expect(bearerResponse.status).toBe(200);
   });
 
-  it('basic fails with known user and wrong password ', async () => {
+  it('Basic fails with known user and wrong password ', async () => {
 
     const response = await mockRequest.post('/signin')
       .auth('admin', 'xyz');
@@ -76,7 +76,7 @@ describe('Auth Router', () => {
     expect(token).not.toBeDefined();
   });
 
-  it('basic fails with unknown user', async () => {
+  it('Basic fails with unknown user', async () => {
 
     const response = await mockRequest.post('/signin')
       .auth('nobody', 'xyz');
@@ -88,7 +88,7 @@ describe('Auth Router', () => {
     expect(token).not.toBeDefined();
   });
 
-  it('bearer fails with an invalid token', async () => {
+  it('Bearer fails with an invalid token', async () => {
 
     // First, use basic to login to get a token
     const response = await mockRequest.get('/users')
@@ -101,7 +101,7 @@ describe('Auth Router', () => {
     expect(userList.length).toBeFalsy();
   });
 
-  it('Succeeds with a valid token', async () => {
+  it('Successfull with a valid token', async () => {
 
     const response = await mockRequest.get('/users')
       .set('Authorization', `Bearer ${accessToken}`);
