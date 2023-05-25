@@ -23,8 +23,8 @@ afterAll(async () => {
   await db.drop();
 });
 
-describe('Auth Middleware', () => {
 
+describe('Auth Middleware', () => {
 
   // Mock the express req/res/next that we need for each middleware call
   const req = {};
@@ -34,9 +34,9 @@ describe('Auth Middleware', () => {
   };
   const next = jest.fn();
 
-  describe('User authentication', () => {
 
-    it('failed login for a user (admin) with the incorrect credentials', async () => {
+  describe('User authentication', () => {
+    test('failed login for a user (admin) with the incorrect credentials', async () => {
       const basicAuthString = base64.encode('username:password');
 
       // Change the request to match this test case
@@ -45,12 +45,14 @@ describe('Auth Middleware', () => {
       };
 
       await middleware(req, res, next);
+
       expect(next).not.toHaveBeenCalled();
       expect(res.status).toHaveBeenCalledWith(403);
 
     });
 
-    it('log in successfull as an admin user', async () => {
+
+    test('log in successfull as an admin user', async () => {
       let basicAuthString = base64.encode(`${userInfo.admin.username}:${userInfo.admin.password}`);
 
       // Change the request to match this test case
@@ -59,6 +61,7 @@ describe('Auth Middleware', () => {
       };
 
       await middleware(req, res, next);
+
       expect(next).toHaveBeenCalledWith();
 
     });

@@ -1,5 +1,6 @@
 'use strict';
 
+
 process.env.SECRET = 'TEST_SECRET';
 
 const { db } = require('../../../../src/auth/models');
@@ -21,9 +22,7 @@ afterAll(async () => {
 });
 
 describe('Auth Router', () => {
-
-  it('Can create a new user', async () => {
-
+  test('Can create a new user', async () => {
     const response = await mockRequest.post('/signup').send(userData.testUser);
     const userObject = response.body;
 
@@ -33,20 +32,22 @@ describe('Auth Router', () => {
     expect(userObject.user.username).toEqual(userData.testUser.username);
   });
 
-  it('Can signin with basic auth string', async () => {
-    let { username, password } = userData.testUser;
 
+  test('Can signin with basic auth string', async () => {
+    let { username, password } = userData.testUser;
     const response = await mockRequest.post('/signin')
       .auth(username, password);
 
     const userObject = response.body;
+
     expect(response.status).toBe(200);
     expect(userObject.token).toBeDefined();
     expect(userObject.user.id).toBeDefined();
     expect(userObject.user.username).toEqual(username);
   });
 
-  it('Can signin with bearer auth token', async () => {
+
+  test('Can signin with bearer auth token', async () => {
     let { username, password } = userData.testUser;
 
     // First, use basic to login to get a token
@@ -60,12 +61,11 @@ describe('Auth Router', () => {
       .get('/users')
       .set('Authorization', `Bearer ${accessToken}`);
 
-    // Not checking the value of the response, only that we "got in"
     expect(bearerResponse.status).toBe(200);
   });
 
-  it('Basic fails with known user and wrong password ', async () => {
 
+  test('Basic fails with known user and wrong password ', async () => {
     const response = await mockRequest.post('/signin')
       .auth('admin', 'xyz');
     const { user, token } = response.body;
@@ -76,8 +76,8 @@ describe('Auth Router', () => {
     expect(token).not.toBeDefined();
   });
 
-  it('Basic fails with unknown user', async () => {
 
+  test('Basic fails with unknown user', async () => {
     const response = await mockRequest.post('/signin')
       .auth('nobody', 'xyz');
     const { user, token } = response.body;
@@ -88,21 +88,21 @@ describe('Auth Router', () => {
     expect(token).not.toBeDefined();
   });
 
-  it('Bearer fails with an invalid token', async () => {
+
+  test('Bearer fails with an invalid token', async () => {
 
     // First, use basic to login to get a token
     const response = await mockRequest.get('/users')
       .set('Authorization', `Bearer foobar`);
     const userList = response.body;
 
-    // Not checking the value of the response, only that we "got in"
     expect(response.status).toBe(403);
     expect(response.text).toEqual('Invalid Login');
     expect(userList.length).toBeFalsy();
   });
 
-  it('Successfull with a valid token', async () => {
 
+  test('Successfull with a valid token', async () => {
     const response = await mockRequest.get('/users')
       .set('Authorization', `Bearer ${accessToken}`);
 
@@ -111,8 +111,8 @@ describe('Auth Router', () => {
     expect(response.body).toEqual(expect.anything());
   });
 
-  it('Secret Route succeeds with a valid token', async () => {
 
+  test('Secret Route is successful with a valid token', async () => {
     const response = await mockRequest.get('/secret')
       .set('Authorization', `Bearer ${accessToken}`);
 
@@ -120,7 +120,8 @@ describe('Auth Router', () => {
     expect(response.text).toEqual('Welcome to the secret area');
   });
 
-  it('Secret Route fails with invalid token', async () => {
+
+  test('Secret Route fails with invalid token', async () => {
     const response = await mockRequest.get('/secret')
       .set('Authorization', `bearer accessgranted`);
 

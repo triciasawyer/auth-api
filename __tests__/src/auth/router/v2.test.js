@@ -29,13 +29,15 @@ afterAll(async () => {
 });
 
 
-describe('Testing v2 REST API', () => {
+describe('Test v2 REST API', () => {
   test('Handles bad requests', async () => {
     const response = await request.post('/api/v2/horse').send({ info: 'bad' });
+
     expect(response.status).toEqual(500);
   });
 
-  test('Prevents create a new food with wrong acl role', async () => {
+
+  test('Prevent creating a new food with wrong acl role', async () => {
     let response = await request.post('/api/v2/food').send({
       name: 'banana',
       calories: 105,
@@ -46,7 +48,8 @@ describe('Testing v2 REST API', () => {
     expect(response.body.message).toEqual('Access Denied');
   });
 
-  test('Create a new food with correct acl role', async () => {
+
+  test('Can create a new food with correct acl role', async () => {
     let response = await request.post('/api/v2/food').send({
       name: 'banana',
       calories: 105,
@@ -59,36 +62,44 @@ describe('Testing v2 REST API', () => {
     expect(response.body.type).toEqual('fruit');
   });
 
-  test('Read all foods', async () => {
+
+  test('Can read all foods', async () => {
     let response = await request.get('/api/v2/food').set('Authorization', `Bearer ${testAdmin.token}`);
+
     expect(response.status).toEqual(200);
     expect(response.body[0].name).toEqual('banana');
     expect(response.body[0].calories).toEqual(105);
     expect(response.body[0].type).toEqual('fruit');
   });
 
-  test('Read one food', async () => {
+
+  test('Can read one food', async () => {
     let response = await request.get('/api/v2/food/1').set('Authorization', `Bearer ${testAdmin.token}`);
+
     expect(response.status).toEqual(200);
     expect(response.body.name).toEqual('banana');
     expect(response.body.calories).toEqual(105);
     expect(response.body.type).toEqual('fruit');
   });
 
-  test('Update a food', async () => {
+
+  test('Can update a food', async () => {
     let response = await request.put('/api/v2/food/1').send({
       name: 'two bananas',
       calories: 210,
       type: 'fruit',
     }).set('Authorization', `Bearer ${testAdmin.token}`);
+
     expect(response.status).toEqual(200);
     expect(response.body.name).toEqual('two bananas');
     expect(response.body.calories).toEqual(210);
     expect(response.body.type).toEqual('fruit');
   });
 
-  test('Delete a food', async () => {
+
+  test('Can delete a food', async () => {
     let response = await request.delete('/api/v2/food/1').set('Authorization', `Bearer ${testAdmin.token}`);
+
     expect(response.status).toEqual(200);
     expect(response.body).toEqual(1);
   });

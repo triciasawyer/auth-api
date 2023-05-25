@@ -1,5 +1,6 @@
 'use strict';
 
+
 const supertest = require('supertest');
 const { server } = require('../../../../src/server');
 const { db } = require('../../../../src/auth/models');
@@ -20,10 +21,12 @@ describe('Testing v1 REST API', () => {
     expect(response.body.message).toEqual('Sorry, we could not find what you were looking for');
   });
 
+
   test('Handles bad requests', async () => {
     const response = await request.post('/api/v1/horse').send({ info: 'bad' });
     expect(response.status).toEqual(500);
   });
+
 
   test('Create a new food', async () => {
     let response = await request.post('/api/v1/food').send({
@@ -37,6 +40,7 @@ describe('Testing v1 REST API', () => {
     expect(response.body.type).toEqual('fruit');
   });
 
+
   test('Read all foods', async () => {
     let response = await request.get('/api/v1/food');
     expect(response.status).toEqual(200);
@@ -45,6 +49,7 @@ describe('Testing v1 REST API', () => {
     expect(response.body[0].type).toEqual('fruit');
   });
 
+
   test('Read one food', async () => {
     let response = await request.get('/api/v1/food/1');
     expect(response.status).toEqual(200);
@@ -52,6 +57,7 @@ describe('Testing v1 REST API', () => {
     expect(response.body.calories).toEqual(105);
     expect(response.body.type).toEqual('fruit');
   });
+
 
   test('Update a food', async () => {
     let response = await request.put('/api/v1/food/1').send({
@@ -64,6 +70,7 @@ describe('Testing v1 REST API', () => {
     expect(response.body.calories).toEqual(210);
     expect(response.body.type).toEqual('fruit');
   });
+
 
   test('Delete a food', async () => {
     let response = await request.delete('/api/v1/food/1');
