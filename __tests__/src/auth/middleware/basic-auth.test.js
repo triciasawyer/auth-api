@@ -12,7 +12,6 @@ let userInfo = {
 };
 
 
-// Pre-load our database with fake users
 beforeAll(async () => {
   await db.sync();
   await users.create(userInfo.admin);
@@ -36,8 +35,6 @@ describe('Auth Middleware', () => {
 
   test('failed login with the incorrect credentials', async () => {
     const basicAuthString = base64.encode('username:password');
-
-    // Change the request to match this test case
     req.headers = {
       authorization: `Basic ${basicAuthString}`,
     };
@@ -52,8 +49,6 @@ describe('Auth Middleware', () => {
 
   test('login successfulr', async () => {
     let basicAuthString = base64.encode(`${userInfo.admin.username}:${userInfo.admin.password}`);
-
-    // Change the request to match this test case
     req.headers = {
       authorization: `Basic ${basicAuthString}`,
     };

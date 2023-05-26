@@ -10,18 +10,17 @@ let userInfo = {
   admin: { username: 'admin', password: 'password' },
 };
 
-// Pre-load our database with fake users
 beforeAll(async () => {
   await db.sync();
   await users.create(userInfo.admin);
 });
+
 afterAll(async () => {
   await db.drop();
 });
 
 
 describe('Auth Middleware', () => {
-  // Mock the express req/res/next that we need for each middleware call
   const req = {};
   const res = {
     status: jest.fn(() => res),
@@ -32,8 +31,7 @@ describe('Auth Middleware', () => {
 
 
   describe('user authentication', () => {
-    test('Fails a login for a user (admin) with an incorrect token', async () => {
-
+    test('Failed to login due to incorrect token', async () => {
       req.headers = {
         authorization: 'Bearer thisisabadtoken',
       };
@@ -42,12 +40,10 @@ describe('Auth Middleware', () => {
 
       expect(next).not.toHaveBeenCalled();
       expect(res.status).toHaveBeenCalledWith(403);
-
     });
 
 
-    test('Successfully login for a user with a proper token', async () => {
-
+    test('Successfully login with a proper token', async () => {
       const user = { username: 'admin' };
       const token = jwt.sign(user, process.env.SECRET, { expiresIn: 1000 * 60 * 24 });
 
@@ -58,7 +54,8 @@ describe('Auth Middleware', () => {
       await bearer(req, res, next);
 
       expect(next).toHaveBeenCalledWith();
-
     });
+
   });
+  
 });
