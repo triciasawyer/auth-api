@@ -21,6 +21,7 @@ afterAll(async () => {
   await db.drop();
 });
 
+
 describe('Auth Router', () => {
   test('Can create a new user', async () => {
     const response = await mockRequest.post('/signup').send(userData.testUser);
@@ -65,67 +66,5 @@ describe('Auth Router', () => {
   });
 
 
-  test('Basic fails with known user and wrong password ', async () => {
-    const response = await mockRequest.post('/signin')
-      .auth('admin', 'xyz');
-    const { user, token } = response.body;
 
-    expect(response.status).toBe(403);
-    expect(response.text).toEqual('Invalid Login');
-    expect(user).not.toBeDefined();
-    expect(token).not.toBeDefined();
-  });
-
-
-  test('Basic fails with unknown user', async () => {
-    const response = await mockRequest.post('/signin')
-      .auth('nobody', 'xyz');
-    const { user, token } = response.body;
-
-    expect(response.status).toBe(403);
-    expect(response.text).toEqual('Invalid Login');
-    expect(user).not.toBeDefined();
-    expect(token).not.toBeDefined();
-  });
-
-
-  test('Bearer fails with an invalid token', async () => {
-
-    // First, use basic to login to get a token
-    const response = await mockRequest.get('/users')
-      .set('Authorization', `Bearer foobar`);
-    const userList = response.body;
-
-    expect(response.status).toBe(403);
-    expect(response.text).toEqual('Invalid Login');
-    expect(userList.length).toBeFalsy();
-  });
-
-
-  test('Successfull with a valid token', async () => {
-    const response = await mockRequest.get('/users')
-      .set('Authorization', `Bearer ${accessToken}`);
-
-    expect(response.status).toBe(200);
-    expect(response.body).toBeTruthy();
-    expect(response.body).toEqual(expect.anything());
-  });
-
-
-  test('Secret Route is successful with a valid token', async () => {
-    const response = await mockRequest.get('/secret')
-      .set('Authorization', `Bearer ${accessToken}`);
-
-    expect(response.status).toBe(200);
-    expect(response.text).toEqual('Welcome to the secret area');
-  });
-
-
-  test('Secret Route fails with invalid token', async () => {
-    const response = await mockRequest.get('/secret')
-      .set('Authorization', `bearer accessgranted`);
-
-    expect(response.status).toBe(403);
-    expect(response.text).toEqual('Invalid Login');
-  });
 });

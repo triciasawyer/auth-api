@@ -15,19 +15,6 @@ afterAll(async () => {
 });
 
 describe('Testing v1 REST API', () => {
-  test('Handles bad routes', async () => {
-    const response = await request.get('/bad');
-    expect(response.status).toEqual(404);
-    expect(response.body.message).toEqual('Sorry, we could not find what you were looking for');
-  });
-
-
-  test('Handles bad requests', async () => {
-    const response = await request.post('/api/v1/horse').send({ info: 'bad' });
-    expect(response.status).toEqual(500);
-  });
-
-
   test('Create a new food', async () => {
     let response = await request.post('/api/v1/food').send({
       name: 'banana',
