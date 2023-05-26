@@ -4,11 +4,11 @@
 
 ## Problem Domain
 
-A simple server combining authentication techniques, CRUD functions on a SQL database, and adaptable routing techniques.
+Modularize the provided code into a single server instance
 
 ## Links and Resources
 
-- [ci/cd]()
+ChatGTP for help with tests
 
 ## Setup
 
@@ -29,16 +29,14 @@ A simple server combining authentication techniques, CRUD functions on a SQL dat
 
 ### Features / Routes
 
-- User data routes
-  - POST : `/signup` - creates a new user
-  - POST : `/signin` - verifies a user against the database
-  - GET : `/users` - requires admin access to retrieve a list of users in the database
-- `api/v2` routes, including `/food` and `/clothes` models
-  - GET : retrieve all items or a specified item
-  - POST : requires writer role to add an item
-  - PUT : requires editor role to edit an item
-  - DELETE : requires admin role to delete an item
+Certain routes within v2 and user options will require basic or bearer auth.
+GET : /api/v2/food - get all food records
+GET : /api/v2/food/:id - get a specific food record
+POST : /api/v2/food - update a food record
+PUT : /api/v2/food/:id updated a food record by id
+PATCH : /api/v2/food/:id update a food record by id
+DELETE : /api/v2/delete delete a food record
 
 ### UML
 
-![auth-api UML]()
+![auth-api UML](./lab8-UML.png)
