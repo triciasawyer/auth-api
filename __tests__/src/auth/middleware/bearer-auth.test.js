@@ -43,7 +43,7 @@ describe('Auth Middleware', () => {
     });
 
 
-    test('Successfully login with a proper token', async () => {
+    test('Successfully logged in with token', async () => {
       const user = { username: 'admin' };
       const token = jwt.sign(user, process.env.SECRET, { expiresIn: 1000 * 60 * 24 });
 
@@ -57,5 +57,5 @@ describe('Auth Middleware', () => {
     });
 
   });
-  
+
 });

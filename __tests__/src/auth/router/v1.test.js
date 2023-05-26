@@ -14,6 +14,7 @@ afterAll(async () => {
   await db.drop();
 });
 
+
 describe('Testing v1 REST API', () => {
   test('Create a new food', async () => {
     let response = await request.post('/api/v1/food').send({
@@ -21,6 +22,7 @@ describe('Testing v1 REST API', () => {
       calories: 105,
       type: 'fruit',
     });
+
     expect(response.status).toEqual(201);
     expect(response.body.name).toEqual('banana');
     expect(response.body.calories).toEqual(105);
@@ -30,6 +32,7 @@ describe('Testing v1 REST API', () => {
 
   test('Read all foods', async () => {
     let response = await request.get('/api/v1/food');
+
     expect(response.status).toEqual(200);
     expect(response.body[0].name).toEqual('banana');
     expect(response.body[0].calories).toEqual(105);
@@ -39,6 +42,7 @@ describe('Testing v1 REST API', () => {
 
   test('Read one food', async () => {
     let response = await request.get('/api/v1/food/1');
+
     expect(response.status).toEqual(200);
     expect(response.body.name).toEqual('banana');
     expect(response.body.calories).toEqual(105);
@@ -52,6 +56,7 @@ describe('Testing v1 REST API', () => {
       calories: 210,
       type: 'fruit',
     });
+
     expect(response.status).toEqual(200);
     expect(response.body.name).toEqual('two bananas');
     expect(response.body.calories).toEqual(210);
@@ -64,4 +69,5 @@ describe('Testing v1 REST API', () => {
     expect(response.status).toEqual(200);
     expect(response.body).toEqual(1);
   });
+  
 });

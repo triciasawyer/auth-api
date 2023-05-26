@@ -33,7 +33,7 @@ describe('Auth Middleware', () => {
   const next = jest.fn();
 
 
-  test('failed login with the incorrect credentials', async () => {
+  test('Failed to login', async () => {
     const basicAuthString = base64.encode('username:password');
     req.headers = {
       authorization: `Basic ${basicAuthString}`,
@@ -47,7 +47,7 @@ describe('Auth Middleware', () => {
   });
 
 
-  test('login successfulr', async () => {
+  test('Successful login', async () => {
     let basicAuthString = base64.encode(`${userInfo.admin.username}:${userInfo.admin.password}`);
     req.headers = {
       authorization: `Basic ${basicAuthString}`,
@@ -58,4 +58,6 @@ describe('Auth Middleware', () => {
     expect(next).toHaveBeenCalledWith();
 
   });
+
+  
 });
