@@ -26,7 +26,6 @@ afterAll(async () => {
 
 describe('Auth Middleware', () => {
 
-  // Mock the express req/res/next that we need for each middleware call
   const req = {};
   const res = {
     status: jest.fn(() => res),
@@ -35,35 +34,33 @@ describe('Auth Middleware', () => {
   const next = jest.fn();
 
 
-  describe('User authentication', () => {
-    test('failed login for a user (admin) with the incorrect credentials', async () => {
-      const basicAuthString = base64.encode('username:password');
+  test('failed login with the incorrect credentials', async () => {
+    const basicAuthString = base64.encode('username:password');
 
-      // Change the request to match this test case
-      req.headers = {
-        authorization: `Basic ${basicAuthString}`,
-      };
+    // Change the request to match this test case
+    req.headers = {
+      authorization: `Basic ${basicAuthString}`,
+    };
 
-      await middleware(req, res, next);
+    await middleware(req, res, next);
 
-      expect(next).not.toHaveBeenCalled();
-      expect(res.status).toHaveBeenCalledWith(403);
+    expect(next).not.toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(403);
 
-    });
+  });
 
 
-    test('log in successfull as an admin user', async () => {
-      let basicAuthString = base64.encode(`${userInfo.admin.username}:${userInfo.admin.password}`);
+  test('login successfulr', async () => {
+    let basicAuthString = base64.encode(`${userInfo.admin.username}:${userInfo.admin.password}`);
 
-      // Change the request to match this test case
-      req.headers = {
-        authorization: `Basic ${basicAuthString}`,
-      };
+    // Change the request to match this test case
+    req.headers = {
+      authorization: `Basic ${basicAuthString}`,
+    };
 
-      await middleware(req, res, next);
+    await middleware(req, res, next);
 
-      expect(next).toHaveBeenCalledWith();
+    expect(next).toHaveBeenCalledWith();
 
-    });
   });
 });
