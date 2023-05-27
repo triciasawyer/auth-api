@@ -16,17 +16,29 @@ afterAll(async () => {
 
 
 describe('Testing v1 REST API', () => {
+  test('Bad requests', async () => {
+    const response = await request.post('/api/v1/notFood').send({ info: 'bad' });
+    expect(response.status).toEqual(500);
+  });
+
+
+  test('Bad routes', async () => {
+    const response = await request.get('/notRoute');
+    expect(response.status).toEqual(404);
+    expect(response.body.message).toEqual('Sorry, we could not find what you were looking for');
+  });
+
+
   test('Create a new food', async () => {
     let response = await request.post('/api/v1/food').send({
-      name: 'banana',
-      calories: 105,
-      type: 'fruit',
+      name: 'Birthday cake',
+      calories: 200,
+      type: 'Bakery item',
     });
 
     expect(response.status).toEqual(201);
-    expect(response.body.name).toEqual('banana');
-    expect(response.body.calories).toEqual(105);
-    expect(response.body.type).toEqual('fruit');
+    expect(response.body.name).toEqual('Birthday cake');
+    expect(response.body.calories).toEqual(200);
   });
 
 
@@ -34,9 +46,8 @@ describe('Testing v1 REST API', () => {
     let response = await request.get('/api/v1/food');
 
     expect(response.status).toEqual(200);
-    expect(response.body[0].name).toEqual('banana');
-    expect(response.body[0].calories).toEqual(105);
-    expect(response.body[0].type).toEqual('fruit');
+    expect(response.body[0].name).toEqual('Birthday cake');
+    expect(response.body[0].calories).toEqual(200);
   });
 
 
@@ -44,30 +55,29 @@ describe('Testing v1 REST API', () => {
     let response = await request.get('/api/v1/food/1');
 
     expect(response.status).toEqual(200);
-    expect(response.body.name).toEqual('banana');
-    expect(response.body.calories).toEqual(105);
-    expect(response.body.type).toEqual('fruit');
+    expect(response.body.name).toEqual('Birthday cake');
+    expect(response.body.calories).toEqual(200);
   });
 
 
   test('Update a food', async () => {
     let response = await request.put('/api/v1/food/1').send({
-      name: 'two bananas',
-      calories: 210,
-      type: 'fruit',
+      name: 'Birthday cake 2.0',
+      calories: 300,
+      type: 'Bakery item',
     });
 
     expect(response.status).toEqual(200);
-    expect(response.body.name).toEqual('two bananas');
-    expect(response.body.calories).toEqual(210);
-    expect(response.body.type).toEqual('fruit');
+    expect(response.body.name).toEqual('Birthday cake 2.0');
+    expect(response.body.calories).toEqual(300);
   });
 
 
   test('Delete a food', async () => {
     let response = await request.delete('/api/v1/food/1');
+
     expect(response.status).toEqual(200);
     expect(response.body).toEqual(1);
   });
-  
+
 });

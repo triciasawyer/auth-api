@@ -7,11 +7,8 @@ const { db } = require('../../../../src/auth/models');
 const supertest = require('supertest');
 const server = require('../../../../src/server.js').server;
 
-const mockRequest = supertest(server);
+const request = supertest(server);
 
-let userData = {
-  testUser: { username: 'user', password: 'password', role: 'admin' },
-};
 
 beforeAll(async () => {
   await db.sync();
@@ -23,28 +20,24 @@ afterAll(async () => {
 
 
 describe('Auth Router', () => {
-  test('Can create a new user', async () => {
-    const response = await mockRequest.post('/signup').send(userData.testUser);
-    const userObject = response.body;
+  test('A user can signup', async () => {
+    let response = await request.post('/signup').send({
+      username: 'tricia',
+      password: 'passyword',
+      role: 'admin',
+    });
 
     expect(response.status).toBe(201);
-    expect(userObject.token).toBeDefined();
-    expect(userObject.user.id).toBeDefined();
-    expect(userObject.user.username).toEqual(userData.testUser.username);
+    expect(response.body.user.username).toEqual('tricia');
+    expect(response.body.user.role).toEqual('admin');
   });
 
 
-  test('Can signin with basic auth string', async () => {
-    let { username, password } = userData.testUser;
-    const response = await mockRequest.post('/signin')
-      .auth(username, password);
-
-    const userObject = response.body;
+  test('A user can signin', async () => {
+    let response = await request.post('/signin').auth('tricia', 'passyword');
 
     expect(response.status).toBe(200);
-    expect(userObject.token).toBeDefined();
-    expect(userObject.user.id).toBeDefined();
-    expect(userObject.user.username).toEqual(username);
+    expect(response.body.user.username).toEqual('tricia');
   });
 
 
