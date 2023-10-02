@@ -1,42 +1,43 @@
-# Project: auth-api
+# Auth API
 
 ## Author: Tricia Sawyer
 
-## Problem Domain
+### Problem Domain
 
-Modularize the provided code into a single server instance
+The goal of this project is to modularize existing code into a single server instance, enhancing code organization and maintainability.
 
-## Links and Resources
+### Setup
 
-ChatGTP for help with tests
+#### Environment Variables
 
-## Setup
+Ensure you have the following environment variables set in your `.env` file:
 
-### `.env` requirements
+- `PORT`: Port Number for the server.
+- `DATABASE_URL`: URL to the running Postgres instance or database.
+- `SECRET`: Secret key for JWT tokens.
 
-- `PORT` - Port Number
-- `DATABASE_URL` - URL to the running Postgres instance/db
-- `SECRET` - Secret for jwt tokens
+#### Initializing and Running the Application
 
-### How to initialize/run your application (where applicable)
+To set up and run the application, follow these steps:
 
-- Create repo
-- Add starter code
-- `npm install` to install dependencies.
-- `npm run db:config` then edit the created config file.
-- `npm run db:create` to create the database.
-- `npm start` to start the application.
+1. Create a new repository for your project.
+2. Add the provided starter code to your repository.
+3. Run `npm install` to install project dependencies.
+4. Run `npm run db:config` to generate a configuration file for your database. Edit the created config file with your database settings.
+5. Run `npm run db:create` to create the database.
+6. Start the application with `npm start`.
 
-### Features / Routes
+### Features and Routes
 
-Certain routes within v2 and user options will require basic or bearer auth.
-GET : /api/v2/food - get all food records
-GET : /api/v2/food/:id - get a specific food record
-POST : /api/v2/food - update a food record
-PUT : /api/v2/food/:id updated a food record by id
-PATCH : /api/v2/food/:id update a food record by id
-DELETE : /api/v2/delete delete a food record
+The application provides the following routes, with some requiring basic or bearer authentication:
 
-### UML
+- **GET** `/api/v2/food`: Retrieve all food records.
+- **GET** `/api/v2/food/:id`: Retrieve a specific food record.
+- **POST** `/api/v2/food`: Create or update a food record.
+- **PUT** `/api/v2/food/:id`: Update a food record by ID.
+- **PATCH** `/api/v2/food/:id`: Partially update a food record by ID.
+- **DELETE** `/api/v2/delete`: Delete a food record.
 
-![auth-api UML](./lab8-UML.png)
+### UML Diagram
+
+![Auth API UML Diagram](./assets/auth-api.png)
